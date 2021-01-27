@@ -10,11 +10,46 @@ marked.setOptions({
     smartypants: false
 })
 
-// document.getElementById('content').innerHtml = marked('# Marked in browser\n\nRendered by **marked**');
 
+function handleContentChange(){
+    console.log(1)
+}
+
+let input='';
+let output=''
 </script>
 
-<h1>About this site</h1>
+<style>
+ .container {
+     width:100%;
+     display:flex;
+     flex-direction:row;
+ }
+ .box {
+     width: 50%;
+     height: 1000px;
+ }
 
-<p>This is the 'marked' page. There's not much here.</p>
-<div id = "content"></div>
+ .textarea{
+    width: 100%;
+    overflow: scroll;
+    resize: vertical;
+    height: 400px;
+    font-family: monospace;
+    white-space: pre;
+    word-wrap: normal;
+    background-color: white;
+    color: black;
+ }
+</style>
+<h1>Marked Page</h1>
+
+<div class="container">
+    <div class="box">
+        <textarea class="textarea" bind:value={input}></textarea>
+    </div>
+    <div class="box">
+        {@html marked(input)}
+    </div>
+</div>
+
