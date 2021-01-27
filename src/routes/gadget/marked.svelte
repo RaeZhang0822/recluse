@@ -11,12 +11,18 @@ marked.setOptions({
 })
 
 
-function handleContentChange(){
-    console.log(1)
+function handleShowType(value){
+  console.log('click')
+    type = value;
 }
 
 let input='';
-let output=''
+const TYPES={
+    PREVIEW:0,
+    HTML:1,
+    AST:2
+}
+let type = TYPES.PREVIEW;
 </script>
 
 <style>
@@ -31,7 +37,7 @@ let output=''
  }
 
  .textarea{
-    width: 100%;
+    width: 95%;
     overflow: scroll;
     resize: vertical;
     height: 400px;
@@ -41,15 +47,43 @@ let output=''
     background-color: white;
     color: black;
  }
+
+ .menu{
+   margin-bottom: 5px;
+ }
+ .output{
+   min-height:400px;
+   padding: 10px;
+   border: 1px solid blue;
+   border-radius: 4px;
+ }
 </style>
 <h1>Marked Page</h1>
 
 <div class="container">
     <div class="box">
+       <div class="menu"> 
+        <button on:click={()=>input=""}>CLEAR</button>
+      </div>
         <textarea class="textarea" bind:value={input}></textarea>
     </div>
     <div class="box">
-        {@html marked(input)}
+      <div class="menu"> 
+        <button on:click={()=>handleShowType(TYPES.PREVIEW)}>PREVIEW</button>
+        <button on:click={()=>handleShowType(TYPES.HTML)}>HTML</button>
+        <button on:click={()=>handleShowType(TYPES.AST)}>AST</button>
+      </div>
+      <div class="output">
+        {#if type === TYPES.PREVIEW}
+         {@html marked(input)}
+        {:else if type === TYPES.HTML}
+         {marked(input)}
+        {:else if type === TYPES.AST}
+         {input}
+        {/if}
+      </div>
+       
+       
     </div>
 </div>
 
