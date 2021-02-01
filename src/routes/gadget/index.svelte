@@ -20,4 +20,6 @@
 
 <ul>
 	<li><a rel="prefetch" href="gadget/marked">marked</a></li>
+	<li><a rel="prefetch" href="gadget/tuner">Tuner</a></li>
+
 </ul>
