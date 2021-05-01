@@ -4,7 +4,7 @@ import { connect } from "http2";
   export let audio;
 </script>
 
-<script>
+<!-- <script>
   // 创建Audio Context
   var AudioContext = window.AudioContext || window.webkitAudioContext;
   var audioCtx = new AudioContext();
@@ -23,7 +23,7 @@ import { connect } from "http2";
   analyser.getByteFrequencyData(dataArray);
 
   
-</script>
+</script> -->
 
 
 <div style="height: 100%; width: 100%;">
