@@ -44,7 +44,7 @@
 
 <figure>
 	<img alt="Success Kid" src="{successkid}">
-	<figcaption>Have fun with Sapper!</figcaption>
+	<figcaption>这是Sapper自带的图片。</figcaption>
 </figure>
 
-<p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>
+<p><strong>Svelte框架没有成熟的UI库，所以这个网站有点简陋。</strong></p>

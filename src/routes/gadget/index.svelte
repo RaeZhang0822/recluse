@@ -16,7 +16,7 @@
 	<title>Gadget</title>
 </svelte:head>
 
-<h1>Recent posts</h1>
+<h1>这里是我做的一些（自认为）有趣的小玩意儿</h1>
 
 <ul>
 	<li><a rel="prefetch" href="gadget/marked">marked</a></li>
