@@ -1,25 +1,40 @@
 <script>
-  // 参考 https://www.jianshu.com/p/4fd8779943c3
-  AudioContext = window.AudioContext || window.webkitAudioContext;
+  import Notes from './tuner/Notes.svelte'
+AudioContext = window.AudioContext || window.webkitAudioContext
 
-  const audioContext = new AudioContext();
-  const analyser = audioContext.createAnalyser();
-  const scriptProcessor = audioContext.createScriptProcessor(8192, 1, 1);
+const bufferSize = 8192
+const audioContext = new AudioContext()
+const analyser = audioContext.createAnalyser()
+const scriptProcessor = audioContext.createScriptProcessor(bufferSize, 1, 1)
 
-  navigator.mediaDevices.getUserMedia({ audio: true }).then((streamSource) => {
-    // connect 的顺序一定要 streamSource => analyser => scriptProcessor
-    audioContext.createMediaStreamSource(streamSource).connect(analyser);
-    analyser.connect(scriptProcessor);
-    scriptProcessor.connect(audioContext.destination);
+// const pitchDetector = new (Module().AubioPitch)(
+//     'default', bufferSize, 1, audioContext.sampleRate)
 
-    scriptProcessor.addEventListener("audioprocess", (event) => {
-      const data = event.inputBuffer.getChannelData(0);
-      // 为了避免卡住浏览器，只打印一些简单的数据
-      console.log(`${data.length}, ${data[0]}`);
-    });
-  });
+navigator.mediaDevices.getUserMedia({audio: true}).then(streamSource => {
+  // connect 的顺序一定要 streamSource => analyser => scriptProcessor
+  audioContext.createMediaStreamSource(streamSource).connect(analyser)
+  analyser.connect(scriptProcessor)
+  scriptProcessor.connect(audioContext.destination)
+
+  scriptProcessor.addEventListener('audioprocess', event => {
+    // const frequency = pitchDetector.do(event.inputBuffer.getChannelData(0))
+    // if (frequency) {
+    //   console.log(frequency)
+    // }
+  })
+})
 </script>
 
+
 <div style="height: 100%; width: 100%;">
-  <div>这是一个调音器</div>
+   <canvas class="frequency-bars"></canvas>
+    <div class="meter">
+      <div class="meter-dot"></div>
+      <div class="meter-pointer"></div>
+    </div>
+    <div class="notes">
+      <Notes/>
+      <div class="frequency"><span>Hz</span></div>
+    </div>
+    <div class="a4">A<sub>4</sub> = <span>440</span> Hz</div>
 </div>
