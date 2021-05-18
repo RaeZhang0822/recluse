@@ -13,7 +13,8 @@
 
 <ul>
   <li><a rel="prefetch" href="gadget/marked">marked</a></li>
-  <li><a rel="prefetch" href="gadget/tuner">Tuner</a></li>
+  <li><a rel="prefetch" href="gadget/tuner">调音器</a></li>
+  <li><a rel="prefetch" href="gadget/snore">呼噜声与音乐的适配性</a></li>
 </ul>
 
 <style>

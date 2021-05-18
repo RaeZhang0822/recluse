@@ -1,15 +1,3 @@
-<script context="module">
-	export function preload() {
-		return this.fetch(`blog.json`).then(r => r.json()).then(posts => {
-			return { posts };
-		});
-	}
-</script>
-
-<script>
-	export let posts;
-</script>
-
 <style>
 	ul {
 		margin: 0 0 1em 0;
@@ -24,8 +12,3 @@
 <h1>这里是我的技术博客</h1>
 <h4>之前的文章记录在 <a href="https://raezhang0822.github.io/">github</a> 和 <a href="https://blog.csdn.net/RaeZhang">CSDN</a>,如果有空的话，我会迁移过来</h4>
 
-<ul>
-	{#each posts as post}
-		<li><a rel="prefetch" href="blog/{post.slug}">{post.title}</a></li>
-	{/each}
-</ul>
