@@ -1,8 +1,20 @@
 <script>
+
+  // export let onNoteDetected = function(note) {
+  //   if (self.notes.isAutoMode) {
+  //     if (self.lastNote === note.name) {
+  //       self.update(note)
+  //     } else {
+  //       self.lastNote = note.name
+  //     }
+  //   }
+  // }
+export let onNoteDetected = null;
+
 import Notes from '../../components/tuner/Notes.svelte'
 import Meter from '../../components/tuner/Meter.svelte'
 import Aubio from '../../components/tuner/aubio.js'
-const pitchDetector = null; // 计算音高的方法，等Aubio加载之后才能定义
+let pitchDetector = null; // 计算音高的方法，等Aubio加载之后才能定义
 
 const audioContext = new window.AudioContext();
 const analyser =   audioContext.createAnalyser();
@@ -47,13 +59,21 @@ const startRecord=()=>{
 }
 
   Aubio().then(function(aubio) {
-    pitchDetector = new aubio.Pitch(
+    console.log(1)
+    try{
+      pitchDetector = new aubio.Pitch(
       'default',
       bufferSize,
       1,
       audioContext.sampleRate
     )
+    console.log('pitchDetector',pitchDetector)
     startRecord()
+    }catch(e){
+      console.log('e',e)
+
+    }
+    
   })
 
 </script>
