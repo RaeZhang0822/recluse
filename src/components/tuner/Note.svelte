@@ -1,19 +1,24 @@
 <script>
+  import { afterUpdate, createEventDispatcher} from 'svelte';
+
     export let isActive;
     export let note;
-    export let index;
     export let octave;
-    const middleA = 440;
-    const semitone = 69;
-    const getStandardFrequency = function(note) {
-    return middleA * Math.pow(2, (note - semitone) / 12)
-    }
-    const value = 12*(octave+1)+index;
-    const frequency = getStandardFrequency(value);  
+
+    const dispatch = createEventDispatcher();
+
+    let curNodeDom = null;
+
+    afterUpdate(()=>{
+        if(isActive){
+            dispatch('onActive',curNodeDom)
+        }
+    })
+    
 </script>
 
 
-<div class="note" class:active={isActive}>
+<div class="note" class:active={isActive} bind:this={curNodeDom}>
     {note}
     <span class="note-sharp"></span>
     <span class="note-octave">{octave.toString()}</span>

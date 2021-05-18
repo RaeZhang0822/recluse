@@ -2,7 +2,7 @@
 
 <script>
     export let deg = 0;
-    const arr = Array.from(new Array(10).keys());
+    const arr = Array.from(new Array(11).keys());
 </script>
 
 <div class="meter">

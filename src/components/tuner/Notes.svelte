@@ -1,7 +1,8 @@
 <script>
   import Note from './Note.svelte'
   export let value; //当前检测到的频率value
-  export let frequency;
+  export let frequency; //当前频率
+  export let nodeList; // node列表的dom节点
   const octaveList = [2,3,4,5];
   const noteStrings = [
       'C',
@@ -17,7 +18,11 @@
       'A♯',
       'B'
     ]
-
+  
+  const handleActive=(e)=>{
+    const dom = e.detail;
+     nodeList.scrollLeft = dom.offsetLeft - (nodeList.clientWidth - dom.clientWidth) / 2;
+  }
 </script>
 
 <style>
@@ -30,20 +35,6 @@
   right: 0;
   text-align: center;
 }
-
-.note {
-  font-size: 90px;
-  font-weight: bold;
-  position: relative;
-  display: inline-block;
-  padding-right: 30px;
-  padding-left: 10px;
-}
-
-.note.active {
-  color: #e74c3c;
-}
-
 .notes-list {
   overflow: auto;
   overflow: -moz-scrollbars-none;
@@ -57,11 +48,18 @@
   );
 }
 
+.frequency {
+  font-size: 32px;
+}
+
+.frequency span {
+  font-size: 50%;
+  margin-left: 0.25em;
+}
+
 .notes-list::-webkit-scrollbar {
   display: none;
 }
-
-
 
 @media (max-width: 768px) {
   .notes {
@@ -72,12 +70,12 @@
 </style>
 
 <div class="notes">
-  <div class="notes-list">
+  <div class="notes-list" bind:this={nodeList}>
     {#each octaveList as octave}
       {#each noteStrings as note, index}
-        <Note note={note} index={index} octave={octave} isActive={value === 12*(octave+1)+index}/>
+        <Note note={note} octave={octave} isActive={value === 12*(octave+1)+index} listDom={nodeList} on:onActive={handleActive}/>
       {/each}
     {/each}
   </div>
-  <div class="frequency"><span>{frequency.toFixed(2)}Hz</span></div>
+  <div class="frequency">{frequency.toFixed(2)}<span>Hz</span></div>
 </div>

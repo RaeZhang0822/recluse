@@ -1,7 +1,4 @@
 <script>
-
-
-
 import Notes from '../../components/tuner/Notes.svelte'
 import Meter from '../../components/tuner/Meter.svelte'
 import Aubio from '../../components/tuner/aubio.js'
@@ -35,27 +32,23 @@ const scriptProcessor =   audioContext.createScriptProcessor(
     1,
     1
   );
+
 const getNote = function(frequency) {
   const note = 12 * (Math.log(frequency / middleA) / Math.log(2))
   return Math.round(note) +   semitone
 };
+
 const getStandardFrequency = function (note) {
   return middleA * Math.pow(2, (note - semitone) / 12);
 };
+
 const getCents = function(frequency, note) {
   return Math.floor(
     (1200 * Math.log(frequency / getStandardFrequency(note))) / Math.log(2)
   )
 }
+
 const onNoteDetected = function(note) {
-  // if (self.notes.isAutoMode) {
-  //   if (self.lastNote === note.name) {
-  //     self.update(note)
-  //   } else {
-  //     self.lastNote = note.name
-  //   }
-  // }
-  // console.log('note',note);
   const {value,cents,frequency} = note;
   curValue = value;
   curDeg = (cents / 50) * 45
@@ -104,18 +97,19 @@ Aubio().then(function(aubio) {
 
 <div style="height: 100%; width: 100%;">
    <canvas class="frequency-bars"></canvas>
-    <Meter deg={  curDeg}/>
+    <Meter deg={curDeg}/>
     <Notes value={curValue} frequency={curFrq}/>
-    <!-- <div class="a4">A<sub>4</sub> = <span>440</span> Hz</div> -->
+    <div class="a4">A<sub>4</sub> = <span>440</span> Hz</div>
 </div>
 
 <style>
-.frequency {
-  font-size: 32px;
+.a4 {
+  position: absolute;
+  top: 16px;
+  left: 16px;
 }
 
-.frequency span {
-  font-size: 50%;
-  margin-left: 0.25em;
+.a4 span {
+  color: #e74c3c;
 }
 </style>
