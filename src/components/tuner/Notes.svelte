@@ -1,6 +1,7 @@
 <script>
   import Note from './Note.svelte'
   export let value; //当前检测到的频率value
+  export let frequency;
   const octaveList = [2,3,4,5];
   const noteStrings = [
       'C',
@@ -78,5 +79,5 @@
       {/each}
     {/each}
   </div>
-  <div class="frequency"><span>Hz</span></div>
+  <div class="frequency"><span>{frequency.toFixed(2)}Hz</span></div>
 </div>

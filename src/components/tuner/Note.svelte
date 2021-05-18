@@ -4,7 +4,7 @@
     export let index;
     export let octave;
     const middleA = 440;
-    const semitone = 69
+    const semitone = 69;
     const getStandardFrequency = function(note) {
     return middleA * Math.pow(2, (note - semitone) / 12)
     }

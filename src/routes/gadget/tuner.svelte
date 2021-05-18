@@ -1,33 +1,66 @@
 <script>
 
-  // export let onNoteDetected = function(note) {
-  //   if (self.notes.isAutoMode) {
-  //     if (self.lastNote === note.name) {
-  //       self.update(note)
-  //     } else {
-  //       self.lastNote = note.name
-  //     }
-  //   }
-  // }
-export let onNoteDetected = null;
+
 
 import Notes from '../../components/tuner/Notes.svelte'
 import Meter from '../../components/tuner/Meter.svelte'
 import Aubio from '../../components/tuner/aubio.js'
 let pitchDetector = null; // 计算音高的方法，等Aubio加载之后才能定义
 
+const middleA = 440;
+const semitone = 69;
+const bufferSize = 4096;
+const noteStrings = [
+    'C',
+    'C♯',
+    'D',
+    'D♯',
+    'E',
+    'F',
+    'F♯',
+    'G',
+    'G♯',
+    'A',
+    'A♯',
+    'B'
+  ]
+
+let curValue = 0;
+let curDeg = 0;
+let curFrq = 0;
 const audioContext = new window.AudioContext();
 const analyser =   audioContext.createAnalyser();
-const bufferSize = 4096;
 const scriptProcessor =   audioContext.createScriptProcessor(
       bufferSize,
     1,
     1
   );
 const getNote = function(frequency) {
-  const note = 12 * (Math.log(frequency /   middleA) / Math.log(2))
+  const note = 12 * (Math.log(frequency / middleA) / Math.log(2))
   return Math.round(note) +   semitone
 };
+const getStandardFrequency = function (note) {
+  return middleA * Math.pow(2, (note - semitone) / 12);
+};
+const getCents = function(frequency, note) {
+  return Math.floor(
+    (1200 * Math.log(frequency / getStandardFrequency(note))) / Math.log(2)
+  )
+}
+const onNoteDetected = function(note) {
+  // if (self.notes.isAutoMode) {
+  //   if (self.lastNote === note.name) {
+  //     self.update(note)
+  //   } else {
+  //     self.lastNote = note.name
+  //   }
+  // }
+  // console.log('note',note);
+  const {value,cents,frequency} = note;
+  curValue = value;
+  curDeg = (cents / 50) * 45
+  curFrq = frequency;
+}
 
 const startRecord=()=>{
   navigator.mediaDevices
@@ -42,14 +75,13 @@ const startRecord=()=>{
           )
           if (frequency &&  onNoteDetected) {
             const note =  getNote(frequency)
-            console.log('note',note);
-            //  onNoteDetected({
-            //   name:  noteStrings[note % 12],
-            //   value: note,
-            //   cents:  getCents(frequency, note),
-            //   octave: parseInt(note / 12) - 1,
-            //   frequency: frequency
-            // })
+             onNoteDetected({
+              name:  noteStrings[note % 12],
+              value: note,
+              cents:  getCents(frequency, note),
+              octave: parseInt(note / 12) - 1,
+              frequency: frequency
+            })
           }
         })
       })
@@ -58,31 +90,32 @@ const startRecord=()=>{
       })
 }
 
-  Aubio().then(function(aubio) {
-    console.log(1)
-    try{
-      pitchDetector = new aubio.Pitch(
-      'default',
-      bufferSize,
-      1,
-      audioContext.sampleRate
-    )
-    console.log('pitchDetector',pitchDetector)
-    startRecord()
-    }catch(e){
-      console.log('e',e)
-
-    }
-    
-  })
-
+Aubio().then(function(aubio) {
+  pitchDetector = new aubio.Pitch(
+    'default',
+    bufferSize,
+    1,
+    audioContext.sampleRate
+  )
+  startRecord()
+})
 </script>
 
 
 <div style="height: 100%; width: 100%;">
    <canvas class="frequency-bars"></canvas>
-    <Meter deg={45}/>
-    <Notes/>
-    <div class="frequency"><span>Hz</span></div>
-    <div class="a4">A<sub>4</sub> = <span>440</span> Hz</div>
+    <Meter deg={  curDeg}/>
+    <Notes value={curValue} frequency={curFrq}/>
+    <!-- <div class="a4">A<sub>4</sub> = <span>440</span> Hz</div> -->
 </div>
+
+<style>
+.frequency {
+  font-size: 32px;
+}
+
+.frequency span {
+  font-size: 50%;
+  margin-left: 0.25em;
+}
+</style>
