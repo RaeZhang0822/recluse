@@ -1,4 +1,5 @@
 <script>
+    export let isActive;
     export let note;
     export let index;
     export let octave;
@@ -7,27 +8,31 @@
     const getStandardFrequency = function(note) {
     return middleA * Math.pow(2, (note - semitone) / 12)
     }
-
     const value = 12*(octave+1)+index;
-    const frequency = getStandardFrequency(value);
-
-    
-
+    const frequency = getStandardFrequency(value);  
 </script>
 
 
-<div class="note" 
-    data-name={note} 
-    data-value={value} 
-    data-octave={octave.toString()}
-    data-frequency={frequency}
-    >
+<div class="note" class:active={isActive}>
     {note}
     <span class="note-sharp"></span>
     <span class="note-octave">{octave.toString()}</span>
 </div>
 
 <style>
+    .note {
+    font-size: 90px;
+    font-weight: bold;
+    position: relative;
+    display: inline-block;
+    padding-right: 30px;
+    padding-left: 10px;
+    }
+
+    .note.active {
+    color: #e74c3c;
+    }
+
     .note {
     -webkit-tap-highlight-color: transparent;
     }

@@ -1,40 +1,68 @@
 <script>
-  import Notes from './tuner/Notes.svelte'
-AudioContext = window.AudioContext || window.webkitAudioContext
+import Notes from '../../components/tuner/Notes.svelte'
+import Meter from '../../components/tuner/Meter.svelte'
+import Aubio from '../../components/tuner/aubio.js'
+const pitchDetector = null; // 计算音高的方法，等Aubio加载之后才能定义
 
-const bufferSize = 8192
-const audioContext = new AudioContext()
-const analyser = audioContext.createAnalyser()
-const scriptProcessor = audioContext.createScriptProcessor(bufferSize, 1, 1)
+const audioContext = new window.AudioContext();
+const analyser =   audioContext.createAnalyser();
+const bufferSize = 4096;
+const scriptProcessor =   audioContext.createScriptProcessor(
+      bufferSize,
+    1,
+    1
+  );
+const getNote = function(frequency) {
+  const note = 12 * (Math.log(frequency /   middleA) / Math.log(2))
+  return Math.round(note) +   semitone
+};
 
-// const pitchDetector = new (Module().AubioPitch)(
-//     'default', bufferSize, 1, audioContext.sampleRate)
+const startRecord=()=>{
+  navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then(function(stream) {
+         audioContext.createMediaStreamSource(stream).connect( analyser)
+         analyser.connect( scriptProcessor)
+         scriptProcessor.connect( audioContext.destination)
+         scriptProcessor.addEventListener('audioprocess', function(event) {
+          const frequency =  pitchDetector.do(
+            event.inputBuffer.getChannelData(0)
+          )
+          if (frequency &&  onNoteDetected) {
+            const note =  getNote(frequency)
+            console.log('note',note);
+            //  onNoteDetected({
+            //   name:  noteStrings[note % 12],
+            //   value: note,
+            //   cents:  getCents(frequency, note),
+            //   octave: parseInt(note / 12) - 1,
+            //   frequency: frequency
+            // })
+          }
+        })
+      })
+      .catch(function(error) {
+        alert(error.name + ': ' + error.message)
+      })
+}
 
-navigator.mediaDevices.getUserMedia({audio: true}).then(streamSource => {
-  // connect 的顺序一定要 streamSource => analyser => scriptProcessor
-  audioContext.createMediaStreamSource(streamSource).connect(analyser)
-  analyser.connect(scriptProcessor)
-  scriptProcessor.connect(audioContext.destination)
-
-  scriptProcessor.addEventListener('audioprocess', event => {
-    // const frequency = pitchDetector.do(event.inputBuffer.getChannelData(0))
-    // if (frequency) {
-    //   console.log(frequency)
-    // }
+  Aubio().then(function(aubio) {
+    pitchDetector = new aubio.Pitch(
+      'default',
+      bufferSize,
+      1,
+      audioContext.sampleRate
+    )
+    startRecord()
   })
-})
+
 </script>
 
 
 <div style="height: 100%; width: 100%;">
    <canvas class="frequency-bars"></canvas>
-    <div class="meter">
-      <div class="meter-dot"></div>
-      <div class="meter-pointer"></div>
-    </div>
-    <div class="notes">
-      <Notes/>
-      <div class="frequency"><span>Hz</span></div>
-    </div>
+    <Meter deg={45}/>
+    <Notes/>
+    <div class="frequency"><span>Hz</span></div>
     <div class="a4">A<sub>4</sub> = <span>440</span> Hz</div>
 </div>

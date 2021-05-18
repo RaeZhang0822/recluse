@@ -1,25 +1,26 @@
 <script>
-    import Note from './Note.svelte'
-const octaveList = [2,3,4,5];
-const noteStrings = [
-    'C',
-    'C♯',
-    'D',
-    'D♯',
-    'E',
-    'F',
-    'F♯',
-    'G',
-    'G♯',
-    'A',
-    'A♯',
-    'B'
-  ]
+  import Note from './Note.svelte'
+  export let value; //当前检测到的频率value
+  const octaveList = [2,3,4,5];
+  const noteStrings = [
+      'C',
+      'C♯',
+      'D',
+      'D♯',
+      'E',
+      'F',
+      'F♯',
+      'G',
+      'G♯',
+      'A',
+      'A♯',
+      'B'
+    ]
 
 </script>
 
 <style>
-    .notes {
+.notes {
   margin: auto;
   width: 400px;
   position: fixed;
@@ -70,12 +71,12 @@ const noteStrings = [
 </style>
 
 <div class="notes">
-    <div class="notes-list">
-        {#each octaveList as octave}
-            {#each noteStrings as note, index}
-                <Note note={note} index={index} octave={octave}/>
-            {/each}
-        {/each}
-    </div>
-    <div class="frequency"><span>Hz</span></div>
+  <div class="notes-list">
+    {#each octaveList as octave}
+      {#each noteStrings as note, index}
+        <Note note={note} index={index} octave={octave} isActive={value === 12*(octave+1)+index}/>
+      {/each}
+    {/each}
+  </div>
+  <div class="frequency"><span>Hz</span></div>
 </div>
