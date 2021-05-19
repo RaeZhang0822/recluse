@@ -1,60 +1,37 @@
 <script>
-    const fetchAllSounds = ()=>{
-
-    }
-    const onChooseMusic = ()=>{
-
-    }
+  import MusicBox from '../../components/MusicBox.svelte';
 </script>
 
 <div>
-    <audio controls>
-        <source src="snore_sound.mp3" type="audio/mp3">
-        Your browser does not support the <code>audio</code> element.
-    </audio>
-
-    <div>
-        请选择背景音乐
-        <div>
-            <div>双吉他演奏：《头骨 - Shape of My Heart（from Leon）》</div>
-            <audio controls volumn={0.1}>
-                <source src="头骨 - Shape of My Heart（from Leon）.mp3" type="audio/mp3">
-                Your browser does not support the <code>audio</code> element.
-            </audio>
-
-        </div>
-        <div>热情摇滚：《无人的海边》</div>
-        <div>网抑云歌单曲目：《Sun City Girls - Vine Street Piano (Orchestral)》
-            <!-- 《α·Pav - Princess》
-            <audio controls>
-            <source src="α·Pav - Princess.mp3" type="audio/mp3">
-            Your browser does not support the <code>audio</code> element.
-            </audio> -->
-
-            <audio controls volumn={0.1}>
-                <source src="Sun City Girls - Vine Street Piano (Orchestral).mp3" type="audio/mp3">
-                Your browser does not support the <code>audio</code> element.
-            </audio>
-        </div>
-        <div>中低频表现歌单：《Chantal Chamberland - J'ai deux amours》
-        <audio controls volumn={0.1}>
-                <source src="Chantal Chamberland - J'ai deux amours.mp3" type="audio/mp3">
-                Your browser does not support the <code>audio</code> element.
-            </audio>
-        </div>
-
-        <div>综合最佳：《Chantal Chamberland - J'ai deux amours》
-            <audio controls volumn={0.1}>
-                <source src="Chantal Chamberland - J'ai deux amours.mp3" type="audio/mp3">
-                Your browser does not support the <code>audio</code> element.
-            </audio>
-        </div>
-    </div>
-   
+  <MusicBox desc="呼噜原声" src="snore_sound.mp3" />
+  <div class="bgm-container">
+    <div class="title">请选择背景音乐</div>
+    <MusicBox
+      desc="双吉他演奏：《头骨 - Shape of My Heart（from Leon）》"
+      src="头骨 - Shape of My Heart（from Leon）.mp3"
+    />
+    <div>热情摇滚：《无人的海边》</div>
+    <MusicBox
+      desc="网抑云歌单曲目：《Sun City Girls - Vine Street Piano (Orchestral)》"
+      src="Sun City Girls - Vine Street Piano (Orchestral).mp3"
+    />
+    <MusicBox
+      desc="中低频表现歌单：《Chantal Chamberland - J'ai deux amours》"
+      src="Chantal Chamberland - J'ai deux amours.mp3"
+    />
+    <MusicBox
+      desc="综合最佳：《Chantal Chamberland - J'ai deux amours》"
+      src="Chantal Chamberland - J'ai deux amours.mp3"
+    />
+  </div>
 </div>
 
 <style>
-    .wrapper{
-        
-    }
+  .bgm-container {
+    margin: 20px;
+  }
+
+  .title {
+    margin: 10px;
+  }
 </style>
