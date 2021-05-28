@@ -14,7 +14,7 @@
   let curValue = 0;
   let curDeg = 0;
   let curFrq = 0;
-  const audioContext = new window.AudioContext();
+  const audioContext = new AudioContext();
   const analyser = audioContext.createAnalyser();
   const scriptProcessor = audioContext.createScriptProcessor(bufferSize, 1, 1);
 
