@@ -4,6 +4,9 @@
   import Notes from '../../components/tuner/Notes.svelte';
   import Meter from '../../components/tuner/Meter.svelte';
   import Aubio from '../../components/tuner/aubio.js';
+
+  // 处理 AudioContext 的兼容性问题
+  window.AudioContext = window.AudioContext || window.webkitAudioContext;
   let pitchDetector = null; // 计算音高的方法，等Aubio加载之后才能定义
 
   const middleA = 440;
@@ -14,7 +17,7 @@
   let curValue = 0;
   let curDeg = 0;
   let curFrq = 0;
-  const audioContext = new AudioContext();
+  const audioContext = new window.AudioContext();
   const analyser = audioContext.createAnalyser();
   const scriptProcessor = audioContext.createScriptProcessor(bufferSize, 1, 1);
 
