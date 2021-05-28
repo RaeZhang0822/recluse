@@ -1,12 +1,10 @@
 <script>
   // 参考 https://www.jianshu.com/p/4fd8779943c3
-
+  import { onMount } from 'svelte';
   import Notes from '../../components/tuner/Notes.svelte';
   import Meter from '../../components/tuner/Meter.svelte';
   import Aubio from '../../components/tuner/aubio.js';
 
-  // 处理 AudioContext 的兼容性问题
-  window.AudioContext = window.AudioContext || window.webkitAudioContext;
   let pitchDetector = null; // 计算音高的方法，等Aubio加载之后才能定义
 
   const middleA = 440;
@@ -17,9 +15,9 @@
   let curValue = 0;
   let curDeg = 0;
   let curFrq = 0;
-  const audioContext = new window.AudioContext();
-  const analyser = audioContext.createAnalyser();
-  const scriptProcessor = audioContext.createScriptProcessor(bufferSize, 1, 1);
+  let audioContext = new window.AudioContext();
+  let analyser = audioContext.createAnalyser();
+  let scriptProcessor = audioContext.createScriptProcessor(bufferSize, 1, 1);
 
   const getNote = function (frequency) {
     const note = 12 * (Math.log(frequency / middleA) / Math.log(2));
@@ -69,6 +67,12 @@
 
   Aubio().then(function (aubio) {
     pitchDetector = new aubio.Pitch('default', bufferSize, 1, audioContext.sampleRate);
+  });
+
+  onMount(() => {
+    audioContext = new window.AudioContext();
+    analyser = audioContext.createAnalyser();
+    scriptProcessor = audioContext.createScriptProcessor(bufferSize, 1, 1);
     startRecord();
   });
 </script>
