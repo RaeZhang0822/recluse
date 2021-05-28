@@ -13,6 +13,6 @@ const httpsOption = {
 const { handler } = polka({}) // You can also use Express
   .use(compression({ threshold: 0 }), sirv('static', { dev }), sapper.middleware());
 
-createServer(httpsOption, handler).listen('80', (err) => {
+createServer(httpsOption, handler).listen('443', (err) => {
   if (err) console.log('error', err);
 });
