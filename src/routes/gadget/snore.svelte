@@ -3,9 +3,9 @@
 </script>
 
 <div>
-  <MusicBox desc="呼噜原声" src="snore_sound.mp3" />
+  <MusicBox desc="呼噜原声" src="snore_sound.mp3" defaultVol={1} />
   <div class="bgm-container">
-    <div class="title">请选择背景音乐</div>
+    <div class="title">下面那首音乐和呼噜声最配？</div>
     <MusicBox
       desc="双吉他演奏：《头骨 - Shape of My Heart（from Leon）》"
       src="头骨 - Shape of My Heart（from Leon）.mp3"
@@ -17,10 +17,6 @@
     />
     <MusicBox
       desc="中低频表现歌单：《Chantal Chamberland - J'ai deux amours》"
-      src="Chantal Chamberland - J'ai deux amours.mp3"
-    />
-    <MusicBox
-      desc="综合最佳：《Chantal Chamberland - J'ai deux amours》"
       src="Chantal Chamberland - J'ai deux amours.mp3"
     />
   </div>
