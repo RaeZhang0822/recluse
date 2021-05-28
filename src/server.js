@@ -10,15 +10,15 @@ const httpsOption = {
   key: fs.readFileSync('./https/recluse.online.key'),
   cert: fs.readFileSync('./https/recluse.online.pem'),
 };
-const { app } = polka() // You can also use Express
-  .use(compression({ threshold: 0 }), sirv('static', { dev }), sapper.middleware());
+// const { app } = polka() // You can also use Express
+//   .use(compression({ threshold: 0 }), sirv('static', { dev }), sapper.middleware());
 
-createServer(httpsOption, app).listen('80', (err) => {
-  if (err) console.log('error', err);
-});
+// createServer(httpsOption, app).listen('80', (err) => {
+//   if (err) console.log('error', err);
+// });
 
-// polka() // You can also use Express
-//   .use(compression({ threshold: 0 }), sirv('static', { dev }), sapper.middleware())
-//   .listen('3000', (err) => {
-//     if (err) console.log('error', err);
-//   });
+polka() // You can also use Express
+  .use(compression({ threshold: 0 }), sirv('static', { dev }), sapper.middleware())
+  .listen('3000', (err) => {
+    if (err) console.log('error', err);
+  });
