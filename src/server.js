@@ -19,6 +19,6 @@ const httpsOption = {
 
 polka() // You can also use Express
   .use(compression({ threshold: 0 }), sirv('static', { dev }), sapper.middleware())
-  .listen('3000', (err) => {
+  .listen('80', (err) => {
     if (err) console.log('error', err);
   });
