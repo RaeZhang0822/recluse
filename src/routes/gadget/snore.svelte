@@ -1,13 +1,5 @@
 <script>
-  import qs from 'qs';
   import MusicBox from '../../components/MusicBox.svelte';
-
-  let selected = null;
-  const search = window.location.search;
-  if (search) {
-    selected = qs(search.slice(1)).value;
-    console.log('selected', selected);
-  }
 </script>
 
 <div>
