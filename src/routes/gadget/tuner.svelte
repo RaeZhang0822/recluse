@@ -1,6 +1,6 @@
 <script>
   // 参考 https://www.jianshu.com/p/4fd8779943c3
-  import { onMount } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import Notes from '../../components/tuner/Notes.svelte';
   import Meter from '../../components/tuner/Meter.svelte';
   import Aubio from '../../components/tuner/aubio.js';
@@ -19,6 +19,7 @@
   let analyser = audioContext.createAnalyser();
   let scriptProcessor = audioContext.createScriptProcessor(bufferSize, 1, 1);
 
+  // 算出频率对应的MIDI编号 详细请看维基百科介绍 https://zh.wikipedia.org/wiki/%E9%9F%B3%E7%AC%A6
   const getNote = function (frequency) {
     const note = 12 * (Math.log(frequency / middleA) / Math.log(2));
     return Math.round(note) + semitone;
@@ -74,6 +75,10 @@
     analyser = audioContext.createAnalyser();
     scriptProcessor = audioContext.createScriptProcessor(bufferSize, 1, 1);
     startRecord();
+  });
+
+  onDestroy(() => {
+    audioContext.close();
   });
 </script>
 
