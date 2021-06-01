@@ -47,12 +47,7 @@
     overflow: -moz-scrollbars-none;
     white-space: nowrap;
     -ms-overflow-style: none;
-    -webkit-mask-image: -webkit-linear-gradient(
-      left,
-      rgba(255, 255, 255, 0),
-      #fff,
-      rgba(255, 255, 255, 0)
-    );
+    mask-image: -webkit-linear-gradient(left, rgba(255, 255, 255, 0), #fff, rgba(255, 255, 255, 0));
   }
 
   .frequency {
